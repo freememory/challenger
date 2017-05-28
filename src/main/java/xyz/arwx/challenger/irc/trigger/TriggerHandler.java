@@ -18,6 +18,7 @@ public abstract class TriggerHandler {
     public String name;
     public HandlerConfig hc;
     public static final String TriggerBaseAddress = TriggerHandler.class.getName();
+    public static final String ALL_PRIV_MSGS = "ALL_PRIV_MSGS";
     private static final Logger logger = LoggerFactory.getLogger(TriggerHandler.class);
     public TriggerHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc)
     {
@@ -36,7 +37,7 @@ public abstract class TriggerHandler {
         return TriggerAddress(name);
     }
 
-    private void init() {
+    protected void init() {
         logger.info("Initialized TriggerHandler for {}", name);
         v.eventBus().consumer(TriggerAddress(), this::handleTriggerMessage);
     }

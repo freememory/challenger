@@ -33,7 +33,7 @@ public class EightBallHandler extends TriggerHandler {
         String response = respList.get(r);
         v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
                 .put("event", Events.Privmsg)
-                .put("target", trigger.channel)
+                .put("target", trigger.returnTarget())
                 .put("message", String.format(response, trigger.from)));
     }
 }

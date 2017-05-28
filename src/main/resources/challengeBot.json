@@ -1,15 +1,15 @@
 {
   "server": "chat.freenode.net",
   "port": 6667,
-  "channels": [ "#running" ],
+  "channels": [ "#testytesttest" ],
   "nick": "challengeRun",
-  "dbPath": "/home/macobas/challengerun.db",
+  "dbConfig": {
+    "dbUrl": "/home/macobas/challengerun.db",
+    "dbDriver": "org.sqlite.JDBC"
+  },
   "autoNickRetry": true,
   "reconnectTimeMs": 10000,
   "triggers": {
-    "challenge": {
-      "regex": "^!challenge\\s+.*"
-    },
     "greet": {
       "regex": "^!yo\\s?+.*",
       "handlers": [
@@ -35,6 +35,14 @@
               "%s: My author was too lazy to add more pre-canned responses. Fuck off."
             ]
           }
+        }
+      ]
+    },
+    "trog": {
+      "regex": "^!(?:trog|gort)\\s?+.*",
+      "handlers": [
+        {
+          "$type": "xyz.arwx.challenger.irc.trigger.impl.TrogHandler"
         }
       ]
     }

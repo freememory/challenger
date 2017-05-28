@@ -11,6 +11,7 @@ import xyz.arwx.challenger.irc.trigger.TriggerHandler;
 import java.util.Map;
 
 import static xyz.arwx.challenger.irc.Events.*;
+import static xyz.arwx.challenger.irc.trigger.TriggerHandler.ALL_PRIV_MSGS;
 
 /**
  * Created by macobas on 23/05/17.
@@ -68,6 +69,30 @@ public class ChallengeBot extends PircBot
         if(sender.equals(getNick()))
             raise(Join, new JsonObject().put("channel", channel));
     }
+
+    @Override
+    public void onPrivateMessage(String sender, String login, String hostname, String message)
+    {
+        boolean sent = false;
+        for(Map.Entry<String, IrcConfig.Trigger> trig : config.triggers.entrySet())
+        {
+            if(message.matches(trig.getValue().regex)) {
+                trigger(new JsonObject()
+                        .put("from", sender)
+                        .put("message", message)
+                        .put("trigger", trig.getKey()));
+                logger.info("Got trigger {} from {}, message: {}", trig.getKey(), sender, message);
+                sent = true;
+            }
+        }
+
+        if(!sent)
+            trigger(new JsonObject()
+                    .put("from", sender)
+                    .put("message", message)
+                    .put("trigger", ALL_PRIV_MSGS));
+    }
+
 
     private void trigger(JsonObject trigInfo)
     {

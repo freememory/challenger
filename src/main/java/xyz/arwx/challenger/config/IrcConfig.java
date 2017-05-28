@@ -21,7 +21,8 @@ public class IrcConfig
     public String nick;
     public boolean autoNickRetry;
     public int reconnectTimeMs;
-    public String dbPath;
+    public DbConfig dbConfig;
+
     public int rejoinTimeMs;
     public static class Trigger
     {

@@ -25,7 +25,7 @@ public class GreetingHandler extends TriggerHandler {
     public void handleTrigger(TriggerMessage trigger) {
         JsonObject pubMsg = new JsonObject()
                         .put("event", Events.Privmsg)
-                        .put("target", trigger.channel)
+                        .put("target", trigger.returnTarget())
                         .put("message", String.format("Hi there, %s! Beep boop.", trigger.from));
         logger.info("Publishing {}", pubMsg.encode());
         v.eventBus().publish(IrcVerticle.InboundAddress, pubMsg);

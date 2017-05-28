@@ -13,4 +13,9 @@ public class TriggerMessage {
     {
         return channel == null || channel.length() == 0;
     }
+
+    public String returnTarget()
+    {
+        return isPrivateMessage() ? from : channel;
+    }
 }
