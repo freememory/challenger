@@ -1,0 +1,42 @@
+{
+  "server": "chat.freenode.net",
+  "port": 6667,
+  "channels": [ "#running" ],
+  "nick": "challengeRun",
+  "dbPath": "/home/macobas/challengerun.db",
+  "autoNickRetry": true,
+  "reconnectTimeMs": 10000,
+  "triggers": {
+    "challenge": {
+      "regex": "^!challenge\\s+.*"
+    },
+    "greet": {
+      "regex": "^!yo\\s?+.*",
+      "handlers": [
+        {
+          "$type": "xyz.arwx.challenger.irc.trigger.impl.GreetingHandler"
+        }
+      ]
+    },
+    "8ball": {
+      "regex": "^!8\\s?+.*",
+      "handlers": [
+        {
+          "$type": "xyz.arwx.challenger.irc.trigger.impl.EightBallHandler",
+          "config": {
+            "responses": [
+              "%s: probably!",
+              "%s: Nooooooooope. Nope nope nope. Nope!",
+              "%s: The fuck should I know? I'm a bot, just make a decision!",
+              "%s: Sure, I guess. You won't die, right?",
+              "%s: Beats the heck out of speaking to me.",
+              "%s: Chances point to whatever-the-fuck-you-want.",
+              "%s: Awwwwwwwwwwwwwwwwww yeaaaaaahhhhh.",
+              "%s: My author was too lazy to add more pre-canned responses. Fuck off."
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
