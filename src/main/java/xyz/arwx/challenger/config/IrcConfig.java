@@ -43,7 +43,8 @@ public class IrcConfig
                         TriggerHandler th = (TriggerHandler) Class.forName(hc.$type).getConstructor(Vertx.class, String.class, Trigger.class, HandlerConfig.class)
                                 .newInstance(vx, k, v, hc);
                         ret.add(th);
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         e.printStackTrace();
                     }

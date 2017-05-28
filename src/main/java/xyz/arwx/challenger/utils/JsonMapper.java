@@ -31,7 +31,8 @@ public class JsonMapper
         try
         {
             return Instance().mapper.readValue(obj.toString(), clazz);
-        } catch (IOException e)
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -44,7 +45,8 @@ public class JsonMapper
         try
         {
             return new JsonObject(Instance().mapper.writeValueAsString(obj));
-        } catch (JsonProcessingException e)
+        }
+        catch (JsonProcessingException e)
         {
             e.printStackTrace();
         }
