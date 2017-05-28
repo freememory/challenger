@@ -1,7 +1,5 @@
 package xyz.arwx.challenger.config;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -12,14 +12,16 @@ import xyz.arwx.challenger.utils.JsonMapper;
 /**
  * Created by macobas on 26/05/17.
  */
-public abstract class TriggerHandler {
+public abstract class TriggerHandler
+{
     public IrcConfig.Trigger trigger;
-    public Vertx v;
-    public String name;
-    public HandlerConfig hc;
-    public static final String TriggerBaseAddress = TriggerHandler.class.getName();
-    public static final String ALL_PRIV_MSGS = "ALL_PRIV_MSGS";
-    private static final Logger logger = LoggerFactory.getLogger(TriggerHandler.class);
+    public Vertx             v;
+    public String            name;
+    public HandlerConfig     hc;
+    public static final  String TriggerBaseAddress = TriggerHandler.class.getName();
+    public static final  String ALL_PRIV_MSGS      = "ALL_PRIV_MSGS";
+    private static final Logger logger             = LoggerFactory.getLogger(TriggerHandler.class);
+
     public TriggerHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc)
     {
         this.trigger = trigger;
@@ -29,20 +31,24 @@ public abstract class TriggerHandler {
         init();
     }
 
-    public static String TriggerAddress(String trig) {
+    public static String TriggerAddress(String trig)
+    {
         return TriggerBaseAddress + "." + trig;
     }
 
-    public String TriggerAddress() {
+    public String TriggerAddress()
+    {
         return TriggerAddress(name);
     }
 
-    protected void init() {
+    protected void init()
+    {
         logger.info("Initialized TriggerHandler for {}", name);
         v.eventBus().consumer(TriggerAddress(), this::handleTriggerMessage);
     }
 
-    private void handleTriggerMessage(Message<JsonObject> trigger) {
+    private void handleTriggerMessage(Message<JsonObject> trigger)
+    {
         handleTrigger(JsonMapper.objectFromJsonObject(trigger.body(), TriggerMessage.class));
     }
 

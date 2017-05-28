@@ -9,9 +9,10 @@ import java.io.IOException;
 /**
  * Created by macobas on 23/05/17.
  */
-public class JsonMapper {
-    private ObjectMapper mapper;
-    private static JsonMapper instance;
+public class JsonMapper
+{
+    private        ObjectMapper mapper;
+    private static JsonMapper   instance;
 
     private JsonMapper()
     {
@@ -20,16 +21,18 @@ public class JsonMapper {
 
     public static JsonMapper Instance()
     {
-        if(instance == null)
+        if (instance == null)
             instance = new JsonMapper();
         return instance;
     }
 
     public static <T> T objectFromJsonObject(JsonObject obj, Class<T> clazz)
     {
-        try {
+        try
+        {
             return Instance().mapper.readValue(obj.toString(), clazz);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
         }
 
@@ -38,9 +41,11 @@ public class JsonMapper {
 
     public static <T> JsonObject objectToJsonObject(T obj)
     {
-        try {
+        try
+        {
             return new JsonObject(Instance().mapper.writeValueAsString(obj));
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e)
+        {
             e.printStackTrace();
         }
 

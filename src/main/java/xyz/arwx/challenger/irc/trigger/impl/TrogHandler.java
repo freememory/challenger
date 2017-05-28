@@ -33,12 +33,14 @@ public class TrogHandler extends TriggerHandler
         }
 
         public LocalDateTime timeStarted;
-        public long timerId;
-        public String trogText;
+        public long          timerId;
+        public String        trogText;
     }
 
     public Map<String, TroggerInfo> currentTroggers = new HashMap<>();
-    public TrogHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc) {
+
+    public TrogHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc)
+    {
         super(v, name, trigger, hc);
     }
 
@@ -52,10 +54,10 @@ public class TrogHandler extends TriggerHandler
     private void handlePrivateMsg(Message<JsonObject> message)
     {
         JsonObject pm = message.body();
-        if(!currentTroggers.containsKey(pm.getString("from")))
+        if (!currentTroggers.containsKey(pm.getString("from")))
             return;
         TroggerInfo ti = currentTroggers.get(pm.getString("from"));
-        if(ti.trogText == null)
+        if (ti.trogText == null)
             ti.trogText = pm.getString("message");
         else
             ti.trogText += "\n" + pm.getString("message");
@@ -64,18 +66,21 @@ public class TrogHandler extends TriggerHandler
     }
 
     @Override
-    public void handleTrigger(TriggerMessage trigger) {
-        if(!trigger.isPrivateMessage())
+    public void handleTrigger(TriggerMessage trigger)
+    {
+        if (!trigger.isPrivateMessage())
             return;
 
-        if(trigger.message.equals("!trog") && !currentTroggers.containsKey(trigger.from)) {
+        if (trigger.message.equals("!trog") && !currentTroggers.containsKey(trigger.from))
+        {
             v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
                     .put("event", Events.Privmsg)
                     .put("target", trigger.from)
                     .put("message", "Ok, trogging started. Note that after 10 idle minutes, all sent private messages will be entered as your trog entry."));
             startTrogging(trigger.from);
         }
-        else if(trigger.message.equals("!gort") && currentTroggers.containsKey(trigger.from)) {
+        else if (trigger.message.equals("!gort") && currentTroggers.containsKey(trigger.from))
+        {
             v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
                     .put("event", Events.Privmsg)
                     .put("target", trigger.from)
@@ -84,7 +89,8 @@ public class TrogHandler extends TriggerHandler
         }
     }
 
-    private void stopTrogging(String from) {
+    private void stopTrogging(String from)
+    {
         TroggerInfo ti = currentTroggers.get(from);
         logger.debug("Trog from {} complete - text {}", from, ti.trogText);
         currentTroggers.remove(from);
@@ -99,10 +105,11 @@ public class TrogHandler extends TriggerHandler
         setTimer(from);
     }
 
-    private void setTimer(String from) {
+    private void setTimer(String from)
+    {
         TroggerInfo info = currentTroggers.get(from);
-        if(info.timerId != -1)
+        if (info.timerId != -1)
             v.cancelTimer(info.timerId);
-        info.timerId = v.setTimer(1000 * 60 * 10, _id->stopTrogging(from));
+        info.timerId = v.setTimer(1000 * 60 * 10, _id -> stopTrogging(from));
     }
 }

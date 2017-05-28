@@ -19,9 +19,9 @@ import static xyz.arwx.challenger.irc.trigger.TriggerHandler.ALL_PRIV_MSGS;
 public class ChallengeBot extends PircBot
 {
     private IrcConfig config;
-    private Vertx v;
-    public static final String PublishAddress = ChallengeBot.class.getName();
-    private static final Logger logger = LoggerFactory.getLogger(ChallengeBot.class);
+    private Vertx     v;
+    public static final  String PublishAddress = ChallengeBot.class.getName();
+    private static final Logger logger         = LoggerFactory.getLogger(ChallengeBot.class);
 
     public ChallengeBot(IrcConfig config, Vertx vertx)
     {
@@ -30,7 +30,8 @@ public class ChallengeBot extends PircBot
         init();
     }
 
-    private void init() {
+    private void init()
+    {
         setName(config.nick);
         setAutoNickChange(config.autoNickRetry);
     }
@@ -50,9 +51,10 @@ public class ChallengeBot extends PircBot
     @Override
     public void onMessage(String channel, String sender, String login, String hostname, String message)
     {
-        for(Map.Entry<String, IrcConfig.Trigger> trig : config.triggers.entrySet())
+        for (Map.Entry<String, IrcConfig.Trigger> trig : config.triggers.entrySet())
         {
-            if(message.matches(trig.getValue().regex)) {
+            if (message.matches(trig.getValue().regex))
+            {
                 trigger(new JsonObject()
                         .put("from", sender)
                         .put("channel", channel)
@@ -66,7 +68,7 @@ public class ChallengeBot extends PircBot
     @Override
     public void onJoin(String channel, String sender, String login, String hostName)
     {
-        if(sender.equals(getNick()))
+        if (sender.equals(getNick()))
             raise(Join, new JsonObject().put("channel", channel));
     }
 
@@ -74,9 +76,10 @@ public class ChallengeBot extends PircBot
     public void onPrivateMessage(String sender, String login, String hostname, String message)
     {
         boolean sent = false;
-        for(Map.Entry<String, IrcConfig.Trigger> trig : config.triggers.entrySet())
+        for (Map.Entry<String, IrcConfig.Trigger> trig : config.triggers.entrySet())
         {
-            if(message.matches(trig.getValue().regex)) {
+            if (message.matches(trig.getValue().regex))
+            {
                 trigger(new JsonObject()
                         .put("from", sender)
                         .put("message", message)
@@ -86,7 +89,7 @@ public class ChallengeBot extends PircBot
             }
         }
 
-        if(!sent)
+        if (!sent)
             trigger(new JsonObject()
                     .put("from", sender)
                     .put("message", message)
@@ -111,13 +114,15 @@ public class ChallengeBot extends PircBot
 
     public boolean connect()
     {
-        if(isConnected())
+        if (isConnected())
             return true;
 
-        try {
+        try
+        {
             connect(config.server, config.port);
             return true;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
             return false;
         }

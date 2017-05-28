@@ -15,12 +15,12 @@ import java.util.List;
  */
 public class IrcVerticle extends AbstractVerticle
 {
-    public static final String InboundAddress = IrcVerticle.class.getName();
-    private static final Logger logger = LoggerFactory.getLogger(IrcVerticle.class);
+    public static final  String InboundAddress = IrcVerticle.class.getName();
+    private static final Logger logger         = LoggerFactory.getLogger(IrcVerticle.class);
     private ChallengeBot bot;
-    private IrcConfig config;
+    private IrcConfig    config;
     private boolean manuallyDisconnected = false;
-    private boolean isReconnecting = false;
+    private boolean isReconnecting       = false;
     private List<TriggerHandler> triggerHandlers;
 
     public void start()
@@ -32,22 +32,26 @@ public class IrcVerticle extends AbstractVerticle
         setupTriggerHandlers();
     }
 
-    private void setupTriggerHandlers() {
+    private void setupTriggerHandlers()
+    {
         triggerHandlers = config.getTriggerHandlers(vertx);
     }
 
-    private void setupEventHandlers() {
-        vertx.eventBus().consumer(InboundAddress, message->{
-            JsonObject msg = (JsonObject)message.body();
-            switch(msg.getString("event"))
+    private void setupEventHandlers()
+    {
+        vertx.eventBus().consumer(InboundAddress, message -> {
+            JsonObject msg = (JsonObject) message.body();
+            switch (msg.getString("event"))
             {
                 case Events.Connect:
                     logger.info("Going to attempt to connect");
-                    if(bot.connect()) {
+                    if (bot.connect())
+                    {
                         logger.info("Connected!");
                         manuallyDisconnected = false;
                         isReconnecting = false;
-                    } else if(isReconnecting)
+                    }
+                    else if (isReconnecting)
                         setupReconnectTimer();
                     break;
                 case Events.Disconnect:
@@ -60,16 +64,16 @@ public class IrcVerticle extends AbstractVerticle
             }
         });
 
-        vertx.eventBus().consumer(ChallengeBot.PublishAddress, message-> {
-            JsonObject msg = (JsonObject)message.body();
-            switch(msg.getString("event"))
+        vertx.eventBus().consumer(ChallengeBot.PublishAddress, message -> {
+            JsonObject msg = (JsonObject) message.body();
+            switch (msg.getString("event"))
             {
                 case Events.Connect:
                     logger.info("Received connect message - going to attempt to /join!");
                     config.channels.forEach(bot::joinChannel);
                     break;
                 case Events.Disconnect:
-                    if(!manuallyDisconnected && config.reconnectTimeMs > 0)
+                    if (!manuallyDisconnected && config.reconnectTimeMs > 0)
                         setupReconnectTimer();
                     break;
                 default:
@@ -79,7 +83,8 @@ public class IrcVerticle extends AbstractVerticle
         });
     }
 
-    private void setupReconnectTimer() {
+    private void setupReconnectTimer()
+    {
         vertx.setTimer(config.reconnectTimeMs, _tid -> vertx.eventBus().send(InboundAddress, new JsonObject().put("event", Events.Connect)));
     }
 }

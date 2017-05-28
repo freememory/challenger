@@ -4,29 +4,28 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.vertx.core.Vertx;
 import xyz.arwx.challenger.irc.trigger.TriggerHandler;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 
 /**
  * Created by macobas on 23/05/17.
  */
 public class IrcConfig
 {
-    public String server;
+    public String  server;
     public Integer port;
     public List<String> channels = new ArrayList<>();
-    public String nick;
-    public boolean autoNickRetry;
-    public int reconnectTimeMs;
+    public String   nick;
+    public boolean  autoNickRetry;
+    public int      reconnectTimeMs;
     public DbConfig dbConfig;
 
     public int rejoinTimeMs;
+
     public static class Trigger
     {
-        public String regex;
+        public String              regex;
         public List<HandlerConfig> handlers;
     }
 
@@ -36,14 +35,16 @@ public class IrcConfig
     public List<TriggerHandler> getTriggerHandlers(Vertx vx)
     {
         List<TriggerHandler> ret = new ArrayList<>();
-        triggers.forEach((k,v) -> {
-            if(v.handlers != null)
+        triggers.forEach((k, v) -> {
+            if (v.handlers != null)
                 v.handlers.forEach(hc -> {
-                    try {
+                    try
+                    {
                         TriggerHandler th = (TriggerHandler) Class.forName(hc.$type).getConstructor(Vertx.class, String.class, Trigger.class, HandlerConfig.class)
                                 .newInstance(vx, k, v, hc);
                         ret.add(th);
-                    } catch (Exception e) {
+                    } catch (Exception e)
+                    {
                         e.printStackTrace();
                     }
                 });

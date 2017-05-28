@@ -3,7 +3,8 @@ package xyz.arwx.challenger.irc.trigger;
 /**
  * Created by macobas on 26/05/17.
  */
-public class TriggerMessage {
+public class TriggerMessage
+{
     public String trigger;
     public String message;
     public String from;
