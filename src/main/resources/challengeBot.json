@@ -6,7 +6,7 @@
   ],
   "nick": "challengeRun",
   "dbConfig": {
-    "dbUrl": "/home/macobas/challengerun.db",
+    "dbUrl": "jdbc:sqlite:/home/macobas/challengerun.db",
     "dbDriver": "org.sqlite.JDBC"
   },
   "autoNickRetry": true,

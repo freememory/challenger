@@ -21,8 +21,8 @@ public class DbVerticle extends AbstractVerticle
     private SQLConnection connection;
     private DbConfig      dbConfig;
     private static final Logger logger          = LoggerFactory.getLogger(DbVerticle.class);
-    private              String OutboundAddress = DbVerticle.class.getName();
-    private              String InboundAddress  = DbVerticle.class.getName() + ".query";
+    public static String OutboundAddress = DbVerticle.class.getName();
+    public static String InboundAddress  = DbVerticle.class.getName() + ".query";
 
     public void start()
     {
@@ -31,7 +31,7 @@ public class DbVerticle extends AbstractVerticle
         client = JDBCClient.createShared(
                 vertx, new JsonObject()
                         .put("driver_class", dbConfig.dbDriver)
-                        .put("uri", dbConfig.dbUrl)
+                        .put("url", dbConfig.dbUrl)
         );
 
         client.getConnection(res -> {

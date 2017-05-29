@@ -2,11 +2,13 @@ package xyz.arwx.challenger.irc.trigger.impl;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.arwx.challenger.config.HandlerConfig;
 import xyz.arwx.challenger.config.IrcConfig;
+import xyz.arwx.challenger.db.DbVerticle;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
 import xyz.arwx.challenger.irc.trigger.TriggerHandler;
@@ -15,6 +17,7 @@ import xyz.arwx.challenger.irc.trigger.TriggerMessage;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by macobas on 28/05/17.
@@ -95,7 +98,28 @@ public class TrogHandler extends TriggerHandler
         logger.debug("Trog from {} complete - text {}", from, ti.trogText);
         currentTroggers.remove(from);
         v.cancelTimer(ti.timerId);
-        // Send to DbVerticle
+        v.eventBus().send(DbVerticle.InboundAddress, new JsonObject()
+                .put("queryType", "UPDATE")
+                .put("query", "INSERT INTO trog (id,nick,time,metadata,trog_text) VALUES (?,?,?,?,?)")
+                .put("params", new JsonArray().add(UUID.randomUUID().toString())
+                        .add(from).add(ti.timeStarted.toString()).add(
+                                new JsonObject().put("source", "irc").encode())
+                        .add(ti.trogText)), res-> {
+            if(res.succeeded())
+            {
+                v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
+                        .put("event", Events.Privmsg)
+                        .put("target", from)
+                        .put("message", "Trog successfully added to db!"));
+            }
+            else
+            {
+                v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
+                        .put("event", Events.Privmsg)
+                        .put("target", from)
+                        .put("message", "FAILED TO UPDATE DB! Contact bot author."));
+            }
+        });
     }
 
     private void startTrogging(String from)
