@@ -1,14 +1,18 @@
 package xyz.arwx.challenger.irc;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
+import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.arwx.challenger.config.IrcConfig;
 import xyz.arwx.challenger.irc.trigger.TriggerHandler;
 import xyz.arwx.challenger.utils.JsonMapper;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by macobas on 23/05/17.
@@ -76,6 +80,9 @@ public class IrcVerticle extends AbstractVerticle
                     if (!manuallyDisconnected && config.reconnectTimeMs > 0)
                         setupReconnectTimer();
                     break;
+                case Events.Who:
+                    User[] users = bot.getUsers(msg.getString("channel"));
+                    message.reply(new JsonArray(Arrays.asList(users).stream().map(User::getNick).map(String::toLowerCase).collect(Collectors.toList())));
                 default:
                     logger.debug("Unknown message sent: {}", msg.encode());
                     break;

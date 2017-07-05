@@ -9,11 +9,10 @@ public final class Events
     {
     }
 
-    ;
-
     public static final String Disconnect = "DISCONNECT";
     public static final String Connect    = "CONNECT";
     public static final String Join       = "JOIN";
     public static final String Privmsg    = "PRIVMSG";
     public static final String Trigger    = "TRIGGER";
+    public static final String Who        = "WHO";
 }

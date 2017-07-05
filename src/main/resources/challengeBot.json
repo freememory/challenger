@@ -2,7 +2,7 @@
   "server": "chat.freenode.net",
   "port": 6667,
   "channels": [
-    "#testytesttest"
+    "#running"
   ],
   "nick": "challengeRun",
   "dbConfig": {
@@ -46,6 +46,23 @@
         {
           "$type": "xyz.arwx.challenger.irc.trigger.impl.TrogHandler"
         }
+      ]
+    },
+    "challenge": {
+      "regex": "^!challenge\\s+.*",
+      "handlers": [
+        {
+          "$type": "xyz.arwx.challenger.irc.trigger.impl.ChallengeHandler",
+          "config": {
+            "regex": "^!challenge\\s+(.+?)\\s+(\\d{4}-\\d{2}-\\d{2})\\s+(.+?)"
+          }
+        }
+      ]
+    },
+    "die": {
+      "regex": "^!dienow\\s?+.*",
+      "handlers": [
+        { "$type": "xyz.arwx.challenger.irc.trigger.impl.DieHandler" }
       ]
     }
   }

@@ -7,6 +7,7 @@ import org.sqlite.SQLiteJDBCLoader;
 import xyz.arwx.challenger.db.DbVerticle;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
+import xyz.arwx.challenger.mail.MailVerticle;
 
 import java.io.*;
 
@@ -35,6 +36,7 @@ public class Challenger
             }
         });
 
+        vertx.deployVerticle(MailVerticle.class.getName(), new DeploymentOptions().setConfig(getConfig("mail.json")).setWorker(true));
         DeploymentOptions dbOpts = new DeploymentOptions().setConfig(config.getJsonObject("dbConfig"));
         vertx.deployVerticle(DbVerticle.class.getName(), dbOpts);
     }
