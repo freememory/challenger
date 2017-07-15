@@ -1,4 +1,4 @@
-package xyz.arwx.challenger.irc.trigger.impl;
+package xyz.arwx.challenger.trigger.impl;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
@@ -11,8 +11,9 @@ import xyz.arwx.challenger.config.IrcConfig;
 import xyz.arwx.challenger.db.DbVerticle;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
-import xyz.arwx.challenger.irc.trigger.TriggerHandler;
-import xyz.arwx.challenger.irc.trigger.TriggerMessage;
+import xyz.arwx.challenger.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.message.TextPayload;
+import xyz.arwx.challenger.trigger.message.TriggerMessage;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -76,18 +77,18 @@ public class TrogHandler extends TriggerHandler
 
         if (trigger.message.equals("!trog") && !currentTroggers.containsKey(trigger.from))
         {
-            v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
-                    .put("event", Events.Privmsg)
-                    .put("target", trigger.from)
-                    .put("message", "Ok, trogging started. Note that after 10 idle minutes, all sent private messages will be entered as your trog entry."));
+            trigger.constructResponse(
+                    new TextPayload("Ok, trogging started. Note that after 10 idle minutes, all sent private messages will be entered as your trog entry.")
+            ).send();
+
             startTrogging(trigger.from);
         }
         else if (trigger.message.equals("!gort") && currentTroggers.containsKey(trigger.from))
         {
-            v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
-                    .put("event", Events.Privmsg)
-                    .put("target", trigger.from)
-                    .put("message", "Ok, trogging complete. Will queue for addition."));
+            trigger.constructResponse(
+                    new TextPayload("Ok, trogging complete. Will queue for addition.")
+            ).send();
+
             stopTrogging(trigger.from);
         }
     }

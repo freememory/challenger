@@ -2,7 +2,7 @@ package xyz.arwx.challenger.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.vertx.core.Vertx;
-import xyz.arwx.challenger.irc.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.TriggerHandler;
 
 import java.util.ArrayList;
 import java.util.List;

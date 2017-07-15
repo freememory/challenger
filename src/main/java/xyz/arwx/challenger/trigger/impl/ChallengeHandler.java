@@ -1,4 +1,4 @@
-package xyz.arwx.challenger.irc.trigger.impl;
+package xyz.arwx.challenger.trigger.impl;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
@@ -9,8 +9,8 @@ import xyz.arwx.challenger.config.HandlerConfig;
 import xyz.arwx.challenger.config.IrcConfig;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
-import xyz.arwx.challenger.irc.trigger.TriggerHandler;
-import xyz.arwx.challenger.irc.trigger.TriggerMessage;
+import xyz.arwx.challenger.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.message.TriggerMessage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

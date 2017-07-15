@@ -55,14 +55,12 @@ public class MailVerticle extends AbstractVerticle
             processIfInteresting((JsonObject)m.body());
         });
 
-        vertx.setPeriodic(3 * 60 * 1000, l -> {
+        vertx.setPeriodic(1 * 60 * 1000, l -> {
             Set<String> nicks = new HashSet<String>(nickToURLMap.keySet());
-            nicks.forEach(n -> isSessionStillActive(n));
+            nicks.forEach(this::isSessionStillActive);
         });
 
-        vertx.setPeriodic(20 * 60 * 1000, l -> {
-            alert();
-        });
+        vertx.setPeriodic(31 * 60 * 1000, l -> alert());
     }
 
     private void alert()

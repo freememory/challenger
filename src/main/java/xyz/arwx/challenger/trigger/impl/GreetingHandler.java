@@ -1,4 +1,4 @@
-package xyz.arwx.challenger.irc.trigger.impl;
+package xyz.arwx.challenger.trigger.impl;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -8,8 +8,10 @@ import xyz.arwx.challenger.config.HandlerConfig;
 import xyz.arwx.challenger.config.IrcConfig;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
-import xyz.arwx.challenger.irc.trigger.TriggerHandler;
-import xyz.arwx.challenger.irc.trigger.TriggerMessage;
+import xyz.arwx.challenger.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.message.SendableMessage;
+import xyz.arwx.challenger.trigger.message.TextPayload;
+import xyz.arwx.challenger.trigger.message.TriggerMessage;
 
 /**
  * Created by macobas on 26/05/17.
@@ -26,11 +28,6 @@ public class GreetingHandler extends TriggerHandler
     @Override
     public void handleTrigger(TriggerMessage trigger)
     {
-        JsonObject pubMsg = new JsonObject()
-                .put("event", Events.Privmsg)
-                .put("target", trigger.returnTarget())
-                .put("message", String.format("Hi there, %s! Beep boop.", trigger.from));
-        logger.info("Publishing {}", pubMsg.encode());
-        v.eventBus().publish(IrcVerticle.InboundAddress, pubMsg);
+        trigger.constructResponse(new TextPayload(String.format("Hi there, %s! Beep boop.", trigger.from))).send();
     }
 }

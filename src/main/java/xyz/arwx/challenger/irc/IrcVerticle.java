@@ -7,7 +7,7 @@ import org.jibble.pircbot.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.arwx.challenger.config.IrcConfig;
-import xyz.arwx.challenger.irc.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.TriggerHandler;
 import xyz.arwx.challenger.utils.JsonMapper;
 
 import java.util.Arrays;

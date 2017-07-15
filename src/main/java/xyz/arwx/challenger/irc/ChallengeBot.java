@@ -6,12 +6,14 @@ import org.jibble.pircbot.PircBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.arwx.challenger.config.IrcConfig;
-import xyz.arwx.challenger.irc.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.message.TriggerMessage;
+import xyz.arwx.challenger.utils.JsonMapper;
 
 import java.util.Map;
 
 import static xyz.arwx.challenger.irc.Events.*;
-import static xyz.arwx.challenger.irc.trigger.TriggerHandler.ALL_PRIV_MSGS;
+import static xyz.arwx.challenger.trigger.TriggerHandler.ALL_PRIV_MSGS;
 
 /**
  * Created by macobas on 23/05/17.
@@ -99,7 +101,9 @@ public class ChallengeBot extends PircBot
 
     private void trigger(JsonObject trigInfo)
     {
-        v.eventBus().publish(TriggerHandler.TriggerAddress(trigInfo.getString("trigger")), trigInfo);
+        TriggerMessage tm = JsonMapper.objectFromJsonObject(trigInfo, TriggerMessage.class);
+        tm.source = TriggerMessage.Source.IRC;
+        v.eventBus().publish(TriggerHandler.TriggerAddress(trigInfo.getString("trigger")), JsonMapper.objectToJsonObject(tm));
     }
 
     private void raise(String event, JsonObject payload)

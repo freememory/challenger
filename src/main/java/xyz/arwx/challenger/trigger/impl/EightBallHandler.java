@@ -1,4 +1,4 @@
-package xyz.arwx.challenger.irc.trigger.impl;
+package xyz.arwx.challenger.trigger.impl;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonObject;
@@ -6,8 +6,9 @@ import xyz.arwx.challenger.config.HandlerConfig;
 import xyz.arwx.challenger.config.IrcConfig;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
-import xyz.arwx.challenger.irc.trigger.TriggerHandler;
-import xyz.arwx.challenger.irc.trigger.TriggerMessage;
+import xyz.arwx.challenger.trigger.TriggerHandler;
+import xyz.arwx.challenger.trigger.message.TextPayload;
+import xyz.arwx.challenger.trigger.message.TriggerMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +35,6 @@ public class EightBallHandler extends TriggerHandler
         List<String> respList = (List<String>) hc.config.get("responses");
         int r = rando.nextInt(respList.size());
         String response = respList.get(r);
-        v.eventBus().publish(IrcVerticle.InboundAddress, new JsonObject()
-                .put("event", Events.Privmsg)
-                .put("target", trigger.returnTarget())
-                .put("message", String.format(response, trigger.from)));
+        trigger.constructResponse(new TextPayload(response)).send();
     }
 }

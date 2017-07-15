@@ -1,4 +1,4 @@
-package xyz.arwx.challenger.irc.trigger;
+package xyz.arwx.challenger.trigger;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.arwx.challenger.config.HandlerConfig;
 import xyz.arwx.challenger.config.IrcConfig;
+import xyz.arwx.challenger.trigger.message.TriggerMessage;
 import xyz.arwx.challenger.utils.JsonMapper;
 
 /**
