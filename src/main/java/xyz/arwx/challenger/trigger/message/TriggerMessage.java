@@ -9,14 +9,15 @@ import xyz.arwx.challenger.irc.IrcVerticle;
  */
 public class TriggerMessage
 {
-    public enum Source {
-        IRC, SLACK;
+    public enum Source
+    {
+        IRC(IrcVerticle.InboundAddress),
+        SLACK("");
 
-        public String ebAddress()
+        public final String address;
+        Source(String address)
         {
-            if(this == IRC)
-                return IrcVerticle.InboundAddress;
-            return "";
+            this.address = address;
         }
     }
 

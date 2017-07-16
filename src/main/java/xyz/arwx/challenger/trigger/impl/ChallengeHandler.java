@@ -5,8 +5,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.arwx.challenger.config.HandlerConfig;
-import xyz.arwx.challenger.config.IrcConfig;
+import xyz.arwx.challenger.config.TriggerConfig;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
 import xyz.arwx.challenger.trigger.TriggerHandler;
@@ -24,7 +23,7 @@ public class ChallengeHandler extends TriggerHandler
 {
     private static final Logger logger = LoggerFactory.getLogger(ChallengeHandler.class);
     Pattern p = null;
-    public ChallengeHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc)
+    public ChallengeHandler(Vertx v, String name, TriggerConfig.Trigger trigger, TriggerConfig.HandlerConfig hc)
     {
         super(v, name, trigger, hc);
         p = Pattern.compile((String)hc.config.get("regex"));

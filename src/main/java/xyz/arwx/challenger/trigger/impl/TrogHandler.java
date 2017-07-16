@@ -6,8 +6,7 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.arwx.challenger.config.HandlerConfig;
-import xyz.arwx.challenger.config.IrcConfig;
+import xyz.arwx.challenger.config.TriggerConfig;
 import xyz.arwx.challenger.db.DbVerticle;
 import xyz.arwx.challenger.irc.Events;
 import xyz.arwx.challenger.irc.IrcVerticle;
@@ -43,7 +42,7 @@ public class TrogHandler extends TriggerHandler
 
     public Map<String, TroggerInfo> currentTroggers = new HashMap<>();
 
-    public TrogHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc)
+    public TrogHandler(Vertx v, String name, TriggerConfig.Trigger trigger, TriggerConfig.HandlerConfig hc)
     {
         super(v, name, trigger, hc);
     }

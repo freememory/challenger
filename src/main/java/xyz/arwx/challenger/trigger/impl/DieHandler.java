@@ -1,13 +1,9 @@
 package xyz.arwx.challenger.trigger.impl;
 
 import io.vertx.core.Vertx;
-import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.arwx.challenger.config.HandlerConfig;
-import xyz.arwx.challenger.config.IrcConfig;
-import xyz.arwx.challenger.irc.Events;
-import xyz.arwx.challenger.irc.IrcVerticle;
+import xyz.arwx.challenger.config.TriggerConfig;
 import xyz.arwx.challenger.trigger.TriggerHandler;
 import xyz.arwx.challenger.trigger.message.TextPayload;
 import xyz.arwx.challenger.trigger.message.TriggerMessage;
@@ -19,7 +15,7 @@ public class DieHandler extends TriggerHandler
 {
     private static final Logger logger = LoggerFactory.getLogger(DieHandler.class);
 
-    public DieHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc)
+    public DieHandler(Vertx v, String name, TriggerConfig.Trigger trigger, TriggerConfig.HandlerConfig hc)
     {
         super(v, name, trigger, hc);
     }

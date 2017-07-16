@@ -5,8 +5,7 @@ import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.arwx.challenger.config.HandlerConfig;
-import xyz.arwx.challenger.config.IrcConfig;
+import xyz.arwx.challenger.config.TriggerConfig;
 import xyz.arwx.challenger.trigger.message.TriggerMessage;
 import xyz.arwx.challenger.utils.JsonMapper;
 
@@ -15,15 +14,15 @@ import xyz.arwx.challenger.utils.JsonMapper;
  */
 public abstract class TriggerHandler
 {
-    public IrcConfig.Trigger trigger;
+    public TriggerConfig.Trigger trigger;
     public Vertx             v;
     public String            name;
-    public HandlerConfig     hc;
+    public TriggerConfig.HandlerConfig     hc;
     public static final  String TriggerBaseAddress = TriggerHandler.class.getName();
     public static final  String ALL_PRIV_MSGS      = "ALL_PRIV_MSGS";
     private static final Logger logger             = LoggerFactory.getLogger(TriggerHandler.class);
 
-    public TriggerHandler(Vertx v, String name, IrcConfig.Trigger trigger, HandlerConfig hc)
+    public TriggerHandler(Vertx v, String name, TriggerConfig.Trigger trigger, TriggerConfig.HandlerConfig hc)
     {
         this.trigger = trigger;
         this.v = v;

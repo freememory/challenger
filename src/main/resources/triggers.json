@@ -1,0 +1,55 @@
+{
+  "greet": {
+    "regex": "^!yo\\s?+.*",
+    "handlers": [
+      {
+        "$type": "xyz.arwx.challenger.trigger.impl.GreetingHandler"
+      }
+    ]
+  },
+  "8ball": {
+    "regex": "^!8\\s?+.*",
+    "handlers": [
+      {
+        "$type": "xyz.arwx.challenger.trigger.impl.EightBallHandler",
+        "config": {
+          "responses": [
+            "%s: probably!",
+            "%s: Nooooooooope. Nope nope nope. Nope!",
+            "%s: The fuck should I know? I'm a bot, just make a decision!",
+            "%s: Sure, I guess. You won't die, right?",
+            "%s: Beats the heck out of speaking to me.",
+            "%s: Chances point to whatever-the-fuck-you-want.",
+            "%s: Awwwwwwwwwwwwwwwwww yeaaaaaahhhhh.",
+            "%s: My author was too lazy to add more pre-canned responses. Fuck off."
+          ]
+        }
+      }
+    ]
+  },
+  "trog": {
+    "regex": "^!(?:trog|gort)\\s?+.*",
+    "handlers": [
+      {
+        "$type": "xyz.arwx.challenger.trigger.impl.TrogHandler"
+      }
+    ]
+  },
+  "challenge": {
+    "regex": "^!challenge\\s+.*",
+    "handlers": [
+      {
+        "$type": "xyz.arwx.challenger.trigger.impl.ChallengeHandler",
+        "config": {
+          "regex": "^!challenge\\s+(.+?)\\s+(\\d{4}-\\d{2}-\\d{2})\\s+(.+?)"
+        }
+      }
+    ]
+  },
+  "die": {
+    "regex": "^!dienow\\s?+.*",
+    "handlers": [
+      { "$type": "xyz.arwx.challenger.trigger.impl.DieHandler" }
+    ]
+  }
+}

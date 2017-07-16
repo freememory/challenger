@@ -1,6 +1,8 @@
 package xyz.arwx.challenger.db;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -86,4 +88,9 @@ public class DbVerticle extends AbstractVerticle
         }
     }
 
+    public static void deploy(Vertx vx, DbConfig db)
+    {
+        DeploymentOptions dbOpts = new DeploymentOptions().setConfig(JsonMapper.objectToJsonObject(db));
+        vx.deployVerticle(DbVerticle.class.getName(), dbOpts);
+    }
 }

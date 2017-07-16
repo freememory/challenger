@@ -3,6 +3,8 @@ package xyz.arwx.challenger.mail;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPStore;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.*;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -239,6 +241,11 @@ public class MailVerticle extends AbstractVerticle
                 }
             });
         }).end();
+    }
+
+    public static void deploy(Vertx vx, MailConfig mail)
+    {
+        vx.deployVerticle(MailVerticle.class.getName(), new DeploymentOptions().setConfig(JsonMapper.objectToJsonObject(mail)).setWorker(true));
     }
 
     private static class IdleThread implements Runnable

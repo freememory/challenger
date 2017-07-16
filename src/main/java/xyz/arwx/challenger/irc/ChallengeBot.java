@@ -6,6 +6,7 @@ import org.jibble.pircbot.PircBot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.arwx.challenger.config.IrcConfig;
+import xyz.arwx.challenger.config.TriggerConfig;
 import xyz.arwx.challenger.trigger.TriggerHandler;
 import xyz.arwx.challenger.trigger.message.TriggerMessage;
 import xyz.arwx.challenger.utils.JsonMapper;
@@ -21,13 +22,15 @@ import static xyz.arwx.challenger.trigger.TriggerHandler.ALL_PRIV_MSGS;
 public class ChallengeBot extends PircBot
 {
     private IrcConfig config;
+    private TriggerConfig triggerConfig;
     private Vertx     v;
     public static final  String PublishAddress = ChallengeBot.class.getName();
     private static final Logger logger         = LoggerFactory.getLogger(ChallengeBot.class);
 
-    public ChallengeBot(IrcConfig config, Vertx vertx)
+    public ChallengeBot(IrcConfig config, TriggerConfig triggerConfig, Vertx vertx)
     {
         this.config = config;
+        this.triggerConfig = triggerConfig;
         this.v = vertx;
         init();
     }
@@ -53,7 +56,7 @@ public class ChallengeBot extends PircBot
     @Override
     public void onMessage(String channel, String sender, String login, String hostname, String message)
     {
-        for (Map.Entry<String, IrcConfig.Trigger> trig : config.triggers.entrySet())
+        for (Map.Entry<String, TriggerConfig.Trigger> trig : triggerConfig.triggers.entrySet())
         {
             if (message.matches(trig.getValue().regex))
             {
@@ -78,7 +81,7 @@ public class ChallengeBot extends PircBot
     public void onPrivateMessage(String sender, String login, String hostname, String message)
     {
         boolean sent = false;
-        for (Map.Entry<String, IrcConfig.Trigger> trig : config.triggers.entrySet())
+        for (Map.Entry<String, TriggerConfig.Trigger> trig : triggerConfig.triggers.entrySet())
         {
             if (message.matches(trig.getValue().regex))
             {

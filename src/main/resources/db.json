@@ -1,0 +1,4 @@
+{
+"dbUrl": "jdbc:sqlite:/home/macobas/challengerun.db",
+"dbDriver": "org.sqlite.JDBC"
+}

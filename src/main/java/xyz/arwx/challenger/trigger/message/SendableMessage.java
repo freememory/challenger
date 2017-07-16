@@ -15,6 +15,6 @@ public class SendableMessage<M extends MessagePayload>
 
     public void send()
     {
-        Challenger.vertx.eventBus().publish(source.ebAddress(), JsonMapper.objectToJsonObject(this));
+        Challenger.vertx.eventBus().publish(source.address, JsonMapper.objectToJsonObject(this));
     }
 }
